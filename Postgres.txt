@@ -1,0 +1,4 @@
+When we create a new instance of the Pool module, we define connection settings in the configuration object. 
+The default Postgres SQL port is 5432, and we are running it in the localhost. 
+You can check these settings by typing \conninfo command in the SQL Shell. 
+If your port is different, you have to change it to the db/index.js file.
