@@ -1,47 +1,37 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const query = require('./db/movies');
 
-const db = require('./db/dbconfig');
+//const bodyParser = require('body-parser');
 
 const app = express();
-app.use(bodyParser.json());
+ 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}));
+
+
+// app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.json({ type: 'application/*+json' }));
+
+
+
+
+
+
+  
+
+
+
+
 const port = 3000;
 
 
-app.get('/', (req, res)=>{
-    res.send("This is it")
-})
+app.get("/api/movies", query.getAllMovies);
+app.get("/api/movies/:id", query.getMovieById);
+app.post("/api/movies", query.addMovie);
+app.delete("/api/movies/:id", query.deleteMovie);
+app.put("/api/movies/:id", query.updateMovie);
 
-// Get all movies
-app.get("/api/movies", (req, res) => {
-  db.query('SELECT * FROM movies', (err, result) => {
-     if (err)
-       console.error(err);
-     else
-       res.json(result.rows) // result.rows then contains the actual result that is in this case an array of movies
-  })
-})
 
-// Get movie by id
-app.get("/api/movies/:id", (req, res) => {
-    const query = {
-      text: 'SELECT * FROM movies WHERE id = $1',
-      values: [req.params.id],
-    }
-
-    db.query(query, (err, result) => {
-        if (err) {
-          return console.error('Error executing query', err.stack)
-       }
-       else {
-         if (result.rows.length > 0)
-           res.json(result.rows);
-         else
-           res.status(404).end();
-       }
-      })
-  
-  })
 
 
 

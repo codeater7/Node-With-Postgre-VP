@@ -8,6 +8,7 @@ const pool = new Pool({
   password: "YOUR_DB_PASSWORD"
 })
 
+
 module.exports = {
   query: (text, params) => pool.query(text, params),
 }
